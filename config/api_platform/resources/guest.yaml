@@ -1,0 +1,67 @@
+# config/api_platform/guest.yaml
+App\Entity\Guest\Guest:
+  collectionOperations:
+    get:
+      controller: App\Controller\Guest\GetGuestsAction
+      output: App\Service\Guest\DTO\GuestListDTO
+      read: false
+      openapi_context:
+        parameters:
+          - in: 'query'
+            name: 'country'
+            required: false
+            description: 'Country code'
+            schema:
+              type: 'string'
+          - in: 'query'
+            name: 'gender'
+            required: false
+            description: 'Gender (M, F, X)'
+            schema:
+              type: 'string'
+          - in: 'query'
+            name: 'search'
+            required: false
+            description: 'Search string to filter guests by name or surname'
+            schema:
+              type: 'string'
+      filters: ['guest.search_filter']
+      security: "(is_granted('ROLE_ADMIN') or is_granted('ROLE_USER'))"
+
+    post:
+      controller: App\Controller\Guest\PostGuestAction
+      input: App\Service\Guest\DTO\GuestInputDTO
+      output: App\Service\Guest\DTO\GuestDTO
+      read: false
+      security: "is_granted('ROLE_ADMIN')"
+
+  itemOperations:
+    get:
+      controller: App\Controller\Guest\GetGuestAction
+      output: App\Service\Guest\DTO\GuestDTO
+      read: false
+      security: "(is_granted('ROLE_ADMIN') or is_granted('GET_ATTENDEE', {'request':request, 'attendeeId':id}))"
+      openapi_context:
+        parameters:
+          - in: 'path'
+            name: 'id'
+            required: true
+            description: 'Guest id'
+            schema:
+              type: 'integer'
+    put:
+      controller: App\Controller\Guest\PutGuestAction
+      input: App\Service\Guest\DTO\GuestInputDTO
+      output: App\Service\Guest\DTO\GuestDTO
+      read: false
+      security: "is_granted('ROLE_ADMIN')"
+
+    delete:
+      controller: App\Controller\Guest\DeleteGuestAction
+      read: false
+      security: "is_granted('ROLE_ADMIN')"
+
+  attributes:
+    pagination_client_items_per_page: true
+    pagination_items_per_page: 50
+    pagination_maximum_items_per_page: 100

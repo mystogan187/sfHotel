@@ -1,0 +1,67 @@
+# config/api_platform/user.yaml
+App\Entity\User\User:
+  collectionOperations:
+    get:
+      controller: App\Controller\User\GetUsersAction
+      output: App\Service\User\DTO\UserListDTO
+      read: false
+      openapi_context:
+        parameters:
+          - in: 'query'
+            name: 'email'
+            required: false
+            description: 'Filter users by email'
+            schema:
+              type: 'string'
+          - in: 'query'
+            name: 'firstName'
+            required: false
+            description: 'Filter users by first name'
+            schema:
+              type: 'string'
+          - in: 'query'
+            name: 'lastName'
+            required: false
+            description: 'Filter users by last name'
+            schema:
+              type: 'string'
+      filters: ['user.search_filter']
+      security: "(is_granted('ROLE_ADMIN') or is_granted('ROLE_USER'))"
+
+    post:
+      controller: App\Controller\User\PostUserAction
+      input: App\Service\User\DTO\UserInputDTO
+      output: App\Service\User\DTO\UserDTO
+      read: false
+      security: "is_granted('ROLE_ADMIN')"
+
+  itemOperations:
+    get:
+      controller: App\Controller\User\GetUserAction
+      output: App\Service\User\DTO\UserDTO
+      read: false
+      security: "(is_granted('ROLE_ADMIN') or is_granted('ROLE_USER'))"
+      openapi_context:
+        parameters:
+          - in: 'path'
+            name: 'id'
+            required: true
+            description: 'User id'
+            schema:
+              type: 'integer'
+    put:
+      controller: App\Controller\User\PutUserAction
+      input: App\Service\User\DTO\UserInputDTO
+      output: App\Service\User\DTO\UserDTO
+      read: false
+      security: "is_granted('ROLE_ADMIN')"
+
+    delete:
+      controller: App\Controller\User\DeleteUserAction
+      read: false
+      security: "is_granted('ROLE_ADMIN')"
+
+  attributes:
+    pagination_client_items_per_page: true
+    pagination_items_per_page: 50
+    pagination_maximum_items_per_page: 100
