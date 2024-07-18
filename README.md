@@ -13,6 +13,13 @@ gh repo clone mystogan187/sfHotel
 git clone https://github.com/mystogan187/sfHotel.git
 ```
 
+### Very Important, once cloned the project must do:
+```sh
+composer update
+
+composer install
+```
+
 ## Requirements
 
 - **Symfony CLI**: To install Symfony CLI, use:
