@@ -29,11 +29,14 @@ App\Entity\User\User:
       security: "(is_granted('ROLE_ADMIN') or is_granted('ROLE_USER'))"
 
     post:
-      controller: App\Controller\User\PostUserAction
+      controller: App\Controller\User\CreateUserAction
       input: App\Service\User\DTO\UserInputDTO
       output: App\Service\User\DTO\UserDTO
       read: false
       security: "is_granted('ROLE_ADMIN')"
+      openapi_context:
+        summary: 'Create a new user'
+        description: 'Create a new user with email, first name, last name, and password'
 
   itemOperations:
     get:

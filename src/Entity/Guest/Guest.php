@@ -2,6 +2,7 @@
 
 namespace App\Entity\Guest;
 
+use App\Entity\Registration\Registration;
 use App\Entity\User\User;
 use App\Repository\Guest\GuestRepository;
 use Doctrine\ORM\Mapping as ORM;
@@ -51,6 +52,10 @@ class Guest
     #[ORM\GeneratedValue(strategy: "SEQUENCE")]
     #[ORM\SequenceGenerator(sequenceName: "registration_id_seq", initialValue: 10000)]
     private int $registrationId;
+
+    #[ORM\ManyToOne(targetEntity: Registration::class, inversedBy: "guests")]
+    #[ORM\JoinColumn(name: "registration_id", referencedColumnName: "id", nullable: false)]
+    private ?Registration $registration = null;
 
     public function getId()
     {
@@ -140,5 +145,15 @@ class Guest
     public function setRegistrationId(int $registrationId): void
     {
         $this->registrationId = $registrationId;
+    }
+
+    public function getRegistration(): ?Registration
+    {
+        return $this->registration;
+    }
+
+    public function setRegistration(?Registration $registration): void
+    {
+        $this->registration = $registration;
     }
 }

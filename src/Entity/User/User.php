@@ -27,6 +27,11 @@ class User
     #[Assert\NotBlank]
     private string $lastName;
 
+    #[ORM\Column(type: "string")]
+    #[Assert\NotBlank]
+    #[Assert\Length(min: 8)]
+    private string $password;
+
     public function getId(): int
     {
         return $this->id;
@@ -60,5 +65,15 @@ class User
     public function setLastName(string $lastName): void
     {
         $this->lastName = $lastName;
+    }
+
+    public function getPassword(): string
+    {
+        return $this->password;
+    }
+
+    public function setPassword(string $password): void
+    {
+        $this->password = $password;
     }
 }
