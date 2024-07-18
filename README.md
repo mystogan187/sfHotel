@@ -1,6 +1,6 @@
 # symfony-hotel
 ## Project Initialization
-//Depreca
+
 To clone the project along with its submodules, use the following command:
 
 ```sh
